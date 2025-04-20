@@ -27,13 +27,12 @@ function CheckStatus(status) {
     return <Badge className="bg-green-400/30">Completed</Badge>;
 }
 
-export default function TodoCard({ todo, onStatusChange }) {
+export default function TodoCard({ todo, onStatusChange, isorg }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editedTitle, setEditedTitle] = useState(todo.title);
   const [editedDescription, setEditedDescription] = useState(todo.description);
-  const router=useRouter();
-
-
+  const router = useRouter();
+ console.log("passed prop= ",isorg)
   const handleEditSubmit = async () => {
     const { error } = await supabase
       .from("todos")
@@ -46,10 +45,7 @@ export default function TodoCard({ todo, onStatusChange }) {
     if (error) {
       console.error("Error updating todo:", error);
     } else {
-      alert("Task updated successfully!");
-      router.push('/dashboard')
-       // Show browser alert
-
+      alert("Task updated successfully!"); // Show browser alert
       setIsDialogOpen(false); // Automatically close the dialog
       if (onStatusChange) onStatusChange(); // Refresh list if needed
     }
@@ -66,49 +62,53 @@ export default function TodoCard({ todo, onStatusChange }) {
   return (
     <div className="bg-gray-900 text-white rounded-lg shadow-md p-4 min-w-[300px] max-w-xs flex flex-col gap-2 border border-gray-700">
       <div className="flex justify-between py-2">
-        <StatusButton status={todo.status} todoId={todo.id} onStatusChange={onStatusChange} />
-        <Dialog>
-          <DialogTrigger asChild>
-            <PencilIcon
-              className="text-xl hover:text-green-300 cursor-pointer"
-              onClick={() => setIsDialogOpen(true)}
-            />
-          </DialogTrigger>
-          <DialogContent className="bg-black text-gray-300 border border-gray-700 rounded-lg shadow-lg">
-            <DialogHeader>
-              <DialogTitle className="text-white">Edit Task</DialogTitle>
-              <DialogDescription className="text-gray-400">
-                Modify the task details below and click submit to save changes.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex flex-col gap-4">
-              <div>
-                <Label htmlFor="title" className="text-white mb-4">Title</Label>
-                <Input
-                  id="title"
-                  value={editedTitle}
-                  onChange={(e) => setEditedTitle(e.target.value)}
-                  className="bg-gray-800 text-white border border-gray-600 rounded-md"
+        {!isorg && (
+          <>
+           
+            <Dialog>
+              <DialogTrigger asChild>
+                <PencilIcon
+                  className="text-xl hover:text-green-300 cursor-pointer"
+                  onClick={() => setIsDialogOpen(true)}
                 />
-              </div>
-              <div>
-                <Label htmlFor="description" className="text-white">Description</Label>
-                <textarea
-                  id="description"
-                  value={editedDescription}
-                  onChange={(e) => setEditedDescription(e.target.value)}
-                  rows={4}
-                  className="bg-gray-800 text-white border border-gray-600 rounded-md p-2 resize-none w-full mt-5"
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button onClick={handleEditSubmit} className="bg-green-500 text-white hover:bg-green-600">
-                Submit
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+              </DialogTrigger>
+              <DialogContent className="bg-black text-gray-300 border border-gray-700 rounded-lg shadow-lg">
+                <DialogHeader>
+                  <DialogTitle className="text-white">Edit Task</DialogTitle>
+                  <DialogDescription className="text-gray-400">
+                    Modify the task details below and click submit to save changes.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <Label htmlFor="title" className="text-white mb-4">Title</Label>
+                    <Input
+                      id="title"
+                      value={editedTitle}
+                      onChange={(e) => setEditedTitle(e.target.value)}
+                      className="bg-gray-800 text-white border border-gray-600 rounded-md"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="description" className="text-white">Description</Label>
+                    <textarea
+                      id="description"
+                      value={editedDescription}
+                      onChange={(e) => setEditedDescription(e.target.value)}
+                      rows={4}
+                      className="bg-gray-800 text-white border border-gray-600 rounded-md p-2 resize-none w-full mt-5"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button onClick={handleEditSubmit} className="bg-green-500 text-white hover:bg-green-600">
+                    Submit
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog> <StatusButton status={todo.status} todoId={todo.id} onStatusChange={onStatusChange} />
+          </>
+        )}
       </div>
 
       <div className="font-semibold text-lg truncate">{todo.title}</div>
@@ -117,10 +117,10 @@ export default function TodoCard({ todo, onStatusChange }) {
         <div className="text-xs text-gray-400">{CheckStatus(todo.status)}</div>
       </div>
       <div className="flex-row-reverse flex">
-        <button onClick={handleDelete}>
+      {!isorg && ( <button onClick={handleDelete}>
           <LucideTrash2 className="text-xl hover:text-red-500" />
         </button>
-      </div>
+     )} </div>
     </div>
   );
 }

@@ -67,7 +67,7 @@ export default function DashboardPage() {
           ) : (
             <div className="flex flex-row flex-wrap gap-4">
               {userTodos.map((todo) => (
-                <TodoCard key={todo.id} todo={todo} onStatusChange={handleStatusChange} />
+                <TodoCard key={todo.id} todo={todo} onStatusChange={handleStatusChange} isorg={false} />
               ))}
               {userTodos.length === 0 && <p>No todos found.</p>}
             </div>
@@ -80,7 +80,7 @@ export default function DashboardPage() {
           ) : (
             <div className="flex flex-row flex-wrap gap-4">
               {orgTodos.map((todo) => (
-                <TodoCard key={todo.id} todo={todo} onStatusChange={handleStatusChange} />
+                <TodoCard key={todo.id} todo={todo} onStatusChange={handleStatusChange} isorg={true} />
               ))}
               {orgTodos.length === 0 && <p>No organization todos found.</p>}
             </div>
