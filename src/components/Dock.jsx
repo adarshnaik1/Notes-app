@@ -1,5 +1,6 @@
 import React from "react";
 import { FloatingDock } from "@/components/ui/floating-dock";
+
 import {
   IconBrandGithub,
   IconBrandX,
@@ -10,6 +11,8 @@ import {
 } from "@tabler/icons-react";
 
 export default function Dock() {
+ 
+  
   const links = [
     {
       title: "Home",
@@ -19,27 +22,19 @@ export default function Dock() {
       href: "/",
     },
 
-    
-    {
-      title: "Components",
-      icon: (
-        <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#",
-    },
     {
       title: "Create Todo",
       icon: (
         <IconPlus className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "/add_task",
     },
     {
       title: "Organization",
       icon: (
         <IconBuildingFactory className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "/add_org",
     },
 
     {
@@ -47,18 +42,18 @@ export default function Dock() {
       icon: (
         <IconBrandX className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "/add_task",
     },
     {
       title: "GitHub",
       icon: (
         <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "https://github.com/adarshnaik1",
     },
   ];
   return (
-    <div className="flex items-center justify-center p-10 w-full">
+    <div className=" sticky bottom-0 mb-5 flex items-center justify-center p-10 w-full">
       <FloatingDock
        
         items={links} />

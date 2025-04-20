@@ -9,6 +9,14 @@ export default function DashboardPage() {
   const [orgTodos, setOrgTodos] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Function to update status of a todo
+  const handleStatusChange = async (todoId, newStatus) => {
+    await supabase.from("todos").update({ status: newStatus }).eq("id", todoId);
+    // Refresh todos after update
+    setUserTodos((prev) => prev.map((t) => t.id === todoId ? { ...t, status: newStatus } : t));
+    setOrgTodos((prev) => prev.map((t) => t.id === todoId ? { ...t, status: newStatus } : t));
+  };
+
   useEffect(() => {
     const fetchTodos = async () => {
       setLoading(true);
@@ -51,15 +59,15 @@ export default function DashboardPage() {
 
   return (
     <div className="bg-black text-white min-h-screen">
-      <div className="p-8 flex flex-col gap-12">
-        <section>
+      <div className="p-6 flex flex-col gap-12 h-screen">
+        <section className="min-h-1/3">
           <h2 className="text-xl font-bold mb-4">Your Todos</h2>
           {loading ? (
             <p>Loading...</p>
           ) : (
             <div className="flex flex-row flex-wrap gap-4">
               {userTodos.map((todo) => (
-                <TodoCard key={todo.id} todo={todo} />
+                <TodoCard key={todo.id} todo={todo} onStatusChange={handleStatusChange} />
               ))}
               {userTodos.length === 0 && <p>No todos found.</p>}
             </div>
@@ -72,14 +80,16 @@ export default function DashboardPage() {
           ) : (
             <div className="flex flex-row flex-wrap gap-4">
               {orgTodos.map((todo) => (
-                <TodoCard key={todo.id} todo={todo} />
+                <TodoCard key={todo.id} todo={todo} onStatusChange={handleStatusChange} />
               ))}
               {orgTodos.length === 0 && <p>No organization todos found.</p>}
             </div>
           )}
         </section>
       </div>
-      <Dock />
+      <div className="sticky bottom-0 z-40">
+        <Dock />
+      </div>
     </div>
   );
 }
