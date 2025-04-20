@@ -9,7 +9,7 @@ import {
   IconBuildingFactory
 } from "@tabler/icons-react";
 
-export default function FloatingDockDemo() {
+export default function Dock() {
   const links = [
     {
       title: "Home",

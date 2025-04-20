@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import FloatingDockDemo from "@/components/Dock";
+import Dock from "@/components/Dock";
+import TodoCard from "@/components/TodoCard";
 
 export default function DashboardPage() {
   const [userTodos, setUserTodos] = useState([]);
@@ -50,22 +51,18 @@ export default function DashboardPage() {
 
   return (
     <div className="bg-black text-white min-h-screen">
-      <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="p-8 flex flex-col gap-12">
         <section>
           <h2 className="text-xl font-bold mb-4">Your Todos</h2>
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <ul>
+            <div className="flex flex-row flex-wrap gap-4">
               {userTodos.map((todo) => (
-                <li key={todo.id} className="mb-2 border-b border-gray-700 pb-2">
-                  <div className="font-semibold">{todo.title}</div>
-                  <div className="text-sm text-gray-400">{todo.description}</div>
-                  <div className="text-xs text-gray-500">Status: {todo.status}</div>
-                </li>
+                <TodoCard key={todo.id} todo={todo} />
               ))}
-              {userTodos.length === 0 && <li>No todos found.</li>}
-            </ul>
+              {userTodos.length === 0 && <p>No todos found.</p>}
+            </div>
           )}
         </section>
         <section>
@@ -73,16 +70,12 @@ export default function DashboardPage() {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <ul>
+            <div className="flex flex-row flex-wrap gap-4">
               {orgTodos.map((todo) => (
-                <li key={todo.id} className="mb-2 border-b border-gray-700 pb-2">
-                  <div className="font-semibold">{todo.title}</div>
-                  <div className="text-sm text-gray-400">{todo.description}</div>
-                  <div className="text-xs text-gray-500">Status: {todo.status}</div>
-                </li>
+                <TodoCard key={todo.id} todo={todo} />
               ))}
-              {orgTodos.length === 0 && <li>No organization todos found.</li>}
-            </ul>
+              {orgTodos.length === 0 && <p>No organization todos found.</p>}
+            </div>
           )}
         </section>
       </div>
