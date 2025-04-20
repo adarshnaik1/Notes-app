@@ -21,11 +21,7 @@ export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
-  /*Remove in prod*/ 
-console.log("SUPABASE_URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
-console.log("SUPABASE_ANON_KEY:", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-console.log("supabase:", supabase);
-console.log("Signup payload:", { email, password, username });
+ 
 
   const toggleSignUp = () => {
     setIsSignUp((prev) => !prev);
